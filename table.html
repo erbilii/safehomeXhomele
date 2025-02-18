@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #d71a1a;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #d71a1a;
+            color: white;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        select {
+            margin: 20px;
+            padding: 10px;
+            background-color: #d71a1a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        select:hover {
+            background-color: #a51414;
+        }
+        button {
+            background-color: #0aa717;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #d71a1a;
+        }
+        .delete-btn:hover {
+            background-color: #a51414;
+        }
+        .clear-btn {
+            background-color: #ffc107;
+        }
+        .clear-btn:hover {
+            background-color: #e0a800;
+        }
+        .country-code {
+            width: 30%;
+            margin-right: 10px;
+        }
+        .phone-number {
+            width: 65%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img src="/assets/img/1.png" alt="Company Logo" class="logo"> <!-- Your Logo -->
+
+        <h2>Submitted Data</h2>
+
+        <!-- Search Input for Phone Numbers -->
+        <input type="text" id="searchInput" placeholder="Search by Phone Number..." onkeyup="searchTable()">
+
+        <!-- City filter dropdown -->
+        <select id="cityFilter" onchange="filterData()">
+            <option value="">Filter by City...</option>
+            <!-- Kurdistan Cities -->
+            <option value="Erbil">Erbil</option>
+            <option value="Sulaymaniyah">Sulaymaniyah</option>
+            <option value="Duhok">Duhok</option>
+            <option value="Zakho">Zakho</option>
+            <option value="Halabja">Halabja</option>
+            <option value="Koya">Koya</option>
+            <option value="Ranya">Ranya</option>
+            <option value="Akre">Akre</option>
+            <option value="Chamchamal">Chamchamal</option>
+            <option value="Rawanduz">Rawanduz</option>
+            <option value="Amadiya">Amadiya</option>
+            <option value="Soran">Soran</option>
+            <option value="Kalar">Kalar</option>
+            <option value="Penjwen">Penjwen</option>
+            <option value="Sharbazher">Sharbazher</option>
+            <option value="Makhmur">Makhmur</option>
+
+            <!-- Other Iraqi Cities -->
+            <option value="Baghdad">Baghdad</option>
+            <option value="Basra">Basra</option>
+            <option value="Maysan">Maysan</option>
+            <option value="Najaf">Najaf</option>
+            <option value="Karbala">Karbala</option>
+            <option value="Amarah">Amarah</option>
+            <option value="Dhi Qar">Dhi Qar</option>
+            <option value="Wasit">Wasit</option>
+            <option value="Anbar">Anbar</option>
+            <option value="Diwaniyah">Diwaniyah</option>
+            <option value="Kirkuk">Kirkuk</option>
+            <option value="Diyala">Diyala</option>
+            <option value="Babil">Babil</option>
+            <option value="Salahaddin">Salahaddin</option>
+            <option value="Nineveh">Nineveh</option>
+            <option value="Al-Qadisiyyah">Al-Qadisiyyah</option>
+            <option value="Al-Muthanna">Al-Muthanna</option>
+            <option value="Mosul">Mosul</option>
+            <option value="Hilla">Hilla</option>
+            <option value="Kufa">Kufa</option>
+            <option value="Samarra">Samarra</option>
+            <option value="Baqubah">Baqubah</option>
+            <option value="Fallujah">Fallujah</option>
+            <option value="Tikrit">Tikrit</option>
+            <option value="Ramadi">Ramadi</option>
+            <option value="Kut">Kut</option>
+            <option value="Najaf">Najaf</option>
+            <!-- Add more cities as needed -->
+        </select>
+
+        <!-- Clear Button -->
+        <button class="clear-btn" onclick="clearData()">Clear All Data</button>
+
+        <!-- Excel Download Button -->
+        <button class="download-btn" onclick="downloadExcel()">Download as Excel</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Phone Number</th>
+                    <th>City</th>
+                    <th>Date & Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="dataTable">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script>
+        // Function to load data and update the table
+        function loadTable() {
+            let data = JSON.parse(localStorage.getItem("formData")) || [];
+            let table = document.getElementById("dataTable");
+            table.innerHTML = "";  // Clear previous rows
+
+            data.forEach((entry, index) => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = index + 1;
+                row.insertCell(1).innerText = entry.fullName;
+                row.insertCell(2).innerText = entry.phoneNumber;
+                row.insertCell(3).innerText = entry.city;
+                row.insertCell(4).innerText = entry.timestamp;
+
+                // Add Delete button in the last column
+                let actionsCell = row.insertCell(5);
+                actionsCell.innerHTML = `
+                    <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+                `;
+            });
+        }
+
+        // Function to delete an entry
+        function deleteEntry(index) {
+            let data = JSON.parse(localStorage.getItem("formData")) || [];
+            data.splice(index, 1);  // Remove the entry at the specified index
+
+            // Save the updated data back to localStorage
+            localStorage.setItem('formData', JSON.stringify(data));
+
+            // Reload the table to reflect changes
+            loadTable();
+
+            alert('Entry deleted successfully!');
+        }
+
+        // Function to search the table by phone number
+        function searchTable() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            let table = document.getElementById('dataTable');
+            let rows = table.getElementsByTagName('tr');
+
+            // Loop through all table rows (except the header)
+            for (let i = 0; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName('td');
+                let phoneNumberCell = cells[2]; // The phone number is in the 3rd column
+
+                if (phoneNumberCell) {
+                    let phoneNumber = phoneNumberCell.textContent || phoneNumberCell.innerText;
+                    if (phoneNumber.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+
+        // Function to filter the table by city
+        function filterData() {
+            let selectedCity = document.getElementById('cityFilter').value;
+            let data = JSON.parse(localStorage.getItem("formData")) || [];
+            let filteredData = selectedCity ? data.filter(entry => entry.city === selectedCity) : data;
+            let table = document.getElementById("dataTable");
+            table.innerHTML = "";  // Clear previous rows
+
+            filteredData.forEach((entry, index) => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = index + 1;
+                row.insertCell(1).innerText = entry.fullName;
+                row.insertCell(2).innerText = entry.phoneNumber;
+                row.insertCell(3).innerText = entry.city;
+                row.insertCell(4).innerText = entry.timestamp;
+
+                // Add Delete button in the last column
+                let actionsCell = row.insertCell(5);
+                actionsCell.innerHTML = `
+                    <button class="delete-btn" onclick="deleteEntry(${index})">Delete</button>
+                `;
+            });
+        }
+
+        // Function to clear all data from localStorage and reload the table with confirmation
+        function clearData() {
+            let confirmation = window.confirm("Are you sure you want to clear all data?");
+            if (confirmation) {
+                // Clear data from localStorage
+                localStorage.removeItem('formData');
+
+                // Reload the table to reflect the cleared data
+                loadTable();
+
+                alert('All data has been cleared.');
+            }
+        }
+
+        // Function to download the table as an Excel file
+        function downloadExcel() {
+            let data = JSON.parse(localStorage.getItem("formData")) || [];
+            let headers = ["#", "Full Name", "Phone Number", "City", "Date & Time"];
+            let tableData = data.map((entry, index) => [
+                index + 1, 
+                entry.fullName, 
+                entry.phoneNumber, 
+                entry.city, 
+                entry.timestamp
+            ]);
+
+            // Create a new worksheet and append data
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...tableData]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Submitted Data");
+
+            // Export as Excel file
+            XLSX.writeFile(wb, "submitted_data.xlsx");
+        }
+
+        window.onload = loadTable;
+    </script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #d71a1a;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a51414;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .phone-number-container {
+            display: flex;
+            align-items: center;
+        }
+        .phone-number {
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/assets/img/1.png" alt="Company Logo" class="logo">
+        <h2>Submit Your Information</h2>
+        <form id="infoForm">
+            <input type="text" id="fullName" placeholder="Full Name" required>
+
+            <!-- Phone Number -->
+            <input type="tel" id="phoneNumber" class="phone-number" placeholder="Phone Number" required>
+
+            <select id="city" required>
+                <option value="">Select City...</option>
+                <!-- Kurdistan Cities -->
+                <option value="Erbil">Erbil</option>
+                <option value="Sulaymaniyah">Sulaymaniyah</option>
+                <option value="Duhok">Duhok</option>
+                <option value="Zakho">Zakho</option>
+                <option value="Halabja">Halabja</option>
+                <option value="Koya">Koya</option>
+                <option value="Ranya">Ranya</option>
+                <option value="Akre">Akre</option>
+                <option value="Chamchamal">Chamchamal</option>
+                <option value="Rawanduz">Rawanduz</option>
+                <option value="Amadiya">Amadiya</option>
+                <option value="Soran">Soran</option>
+                <option value="Kalar">Kalar</option>
+                <option value="Penjwen">Penjwen</option>
+                <option value="Sharbazher">Sharbazher</option>
+                <option value="Makhmur">Makhmur</option>
+                
+                <!-- Other Iraqi Cities -->
+                <option value="Baghdad">Baghdad</option>
+                <option value="Basra">Basra</option>
+                <option value="Maysan">Maysan</option>
+                <option value="Najaf">Najaf</option>
+                <option value="Karbala">Karbala</option>
+                <option value="Amarah">Amarah</option>
+                <option value="Dhi Qar">Dhi Qar</option>
+                <option value="Wasit">Wasit</option>
+                <option value="Anbar">Anbar</option>
+                <option value="Diwaniyah">Diwaniyah</option>
+                <option value="Kirkuk">Kirkuk</option>
+                <option value="Diyala">Diyala</option>
+                <option value="Babil">Babil</option>
+                <option value="Salahaddin">Salahaddin</option>
+                <option value="Nineveh">Nineveh</option>
+                <option value="Al-Qadisiyyah">Al-Qadisiyyah</option>
+                <option value="Al-Muthanna">Al-Muthanna</option>
+                <option value="Mosul">Mosul</option>
+                <option value="Hilla">Hilla</option>
+                <option value="Kufa">Kufa</option>
+                <option value="Samarra">Samarra</option>
+                <option value="Baqubah">Baqubah</option>
+                <option value="Fallujah">Fallujah</option>
+                <option value="Tikrit">Tikrit</option>
+                <option value="Ramadi">Ramadi</option>
+                <option value="Kut">Kut</option>
+                <option value="Najaf">Najaf</option>
+                <option value="Karbala">Karbala</option>
+                <!-- Add more cities as needed -->
+            </select>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('infoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let fullName = document.getElementById('fullName').value;
+            let phoneNumber = document.getElementById('phoneNumber').value;
+            let city = document.getElementById('city').value;
+
+            // Check if all fields are filled
+            if (!fullName || !phoneNumber || !city) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Save the data in localStorage
+            let formData = {
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                city: city,
+                timestamp: new Date().toLocaleString(),
+            };
+
+            try {
+                let storedData = JSON.parse(localStorage.getItem('formData')) || [];
+                storedData.push(formData);
+                localStorage.setItem('formData', JSON.stringify(storedData));
+
+                alert('Information submitted successfully!');
+                document.getElementById('infoForm').reset();
+            } catch (error) {
+                console.error('Error saving data to localStorage:', error);
+                alert('An error occurred while saving data.');
+            }
+        });
+    </script>
+</body>
+</html>
